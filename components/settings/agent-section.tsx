@@ -848,6 +848,9 @@ export function AgentSection({
 						/>
 					</SettingsRow>
 				))}
+				<SettingsRow label="Application" hint="Practical tasks during teaching" testid="tool-row-application">
+					<Toggle checked={agent?.tools?.application ?? true} label="tool application" onChange={(on) => onSectionChange(composeTool(agent, "application", on))} />
+				</SettingsRow>
 				{(() => {
 					const folders = agent?.fileAccess?.folders ?? [];
 					const restricted = Boolean(fileAccessError) || agent?.fileAccess?.restricted === true;

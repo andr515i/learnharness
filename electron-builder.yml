@@ -167,6 +167,7 @@ nsis:
   perMachine: false
 linux:
   icon: build/icon.png
+  maintainer: "andr515i <100580063+andr515i@users.noreply.github.com>"
   target:
     - target: AppImage
       arch:
@@ -188,7 +189,7 @@ publish:
   # would be a leak. desktop:dist passes no --publish flag, so builds never
   # upload; publishing happens at release time (GH_TOKEN + --publish).
   - provider: github
-    owner: amosblomqvist
+    owner: andr515i
     repo: learnharness
     # All three CI jobs contribute assets; only the owner publishes it.
     releaseType: draft

@@ -6,10 +6,7 @@ LearnHarness stores API keys, sign-in tokens, chats, and learning records on you
 
 **Do not open a public issue, pull request, or Discord post for a security problem.**
 
-Report it through GitHub's private vulnerability reporting:
-[Security → Report a vulnerability](https://github.com/amosblomqvist/learnharness/security/advisories/new).
-
-If that page is unavailable, message a maintainer on [Discord](https://discord.gg/5tCHHQEB2e) and ask for a private channel. Do not include any details in that first message.
+A private reporting channel for this fork has not yet been established. Do not send reports about QuanHarness to the original project’s maintainers. Contact the fork owner privately only after establishing a suitable private channel.
 
 A useful report includes:
 
@@ -20,19 +17,11 @@ A useful report includes:
 
 ## What to expect
 
-These are targets, not guarantees:
-
-| Step | Target |
-| --- | --- |
-| Acknowledge your report | within 7 days |
-| Initial assessment (confirmed or not, severity) | within 14 days |
-| Fix released and advisory published | within 90 days of the report |
-
-The fix is developed privately in a GitHub security advisory. We will keep you updated, agree on a disclosure date with you, and credit you in the published advisory unless you prefer to stay anonymous. A CVE can be requested through GitHub when one is warranted.
+The fork does not currently make a response-time or disclosure commitment.
 
 ## Supported versions
 
-Only the latest release receives security fixes. The desktop app updates itself, so fixes reach users through a new release. If you run from source, update to the latest `main` or the latest release tag.
+No supported-release policy has been established for this fork.
 
 ## Scope
 

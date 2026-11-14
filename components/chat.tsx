@@ -58,6 +58,7 @@ import { QuestionDock } from "@/components/question-dock";
 import { SessionFind } from "@/components/session-find";
 import { SessionMessageNavigation } from "@/components/session-navigation";
 import { PracticeDock } from "@/components/practice-dock";
+import { ApplicationDock } from "@/components/application-dock";
 import { ThinkingCard, type PracticeThinkingData } from "@/components/practice-cards";
 import { GraphContextCard, type GraphContextData } from "@/components/graph-context-card";
 import { TopBar } from "@/components/top-bar";
@@ -73,6 +74,7 @@ import { CoverageRing } from "@/components/extraction-coverage";
 import { Button } from "@/components/ui/button";
 import {
 	activeProblemOf,
+	activeApplicationOf,
 	pendingQuestionOf,
 	malformedQuestionsOf,
 	dismissedAnswer,
@@ -462,6 +464,7 @@ export function Chat({
 	// replaces the composer. Computed from the NATIVE record (the fold is
 	// the gate the tools themselves read), not the projected view.
 	const activeProblem = activeProblemOf(nativeMessages);
+	const activeApplication = activeApplicationOf(nativeMessages);
 	const activeProblemRef = useRef(activeProblem);
 	activeProblemRef.current = activeProblem;
 
@@ -752,7 +755,7 @@ export function Chat({
 	// recovers from it. Later compaction requires new input instead.
 	const retryable = (status === "ready" || status === "error") && !busy && !compacting && endsInFailedTurn(nativeMessages);
 	const retryFailedTurn = () => retryFailedResponse(send, draftRef);
-	const sendAllowed = !pending && !activeProblem && !compacting;
+	const sendAllowed = !pending && !activeProblem && !activeApplication && !compacting;
 
 	/* THE PRACTICE PAUSE (owner round 16): between problems — practice
 	 * kind, nothing active, nothing in flight, and at least one problem
@@ -1574,6 +1577,11 @@ export function Chat({
 														if (teachBoundary)
 															return <PhaseDivider key={`teach-step-${pi}`} phase="teach" />;
 														return pi > 0 ? <Separator key={pi} className="my-3" /> : null;
+													case "tool-application": {
+														if (part.state !== "output-available" || activeApplication?.toolCallId === part.toolCallId) return null;
+														const statement = (part.input as { statement?: unknown } | undefined)?.statement;
+														return typeof statement === "string" ? <div key={pi} className="rounded-lg border p-3"><div className="mb-2 font-ui text-xs uppercase text-muted-foreground">Application</div><MessageResponse>{statement}</MessageResponse></div> : null;
+													}
 													case "data-plan-block":
 														// The plan in the chat (wave 4): a frozen snapshot
 														// block — rendered as carried, never re-derived.
@@ -1696,6 +1704,9 @@ export function Chat({
 					initialQuestionDraft={pending ? questionDraft(pending.key)?.form : undefined}
 					onSaveQuestionDraft={(form) => { if (pending) saveQuestionDraft(pending.key, { form }); }}
 					practice={activeProblem}
+					application={activeApplication}
+					onSubmitApplication={(text) => { if (!busy && !compacting) void send({ type: "text", text }); }}
+					applicationDisabled={busy || compacting}
 					compactionRunning={compacting}
 					onSubmitThinking={submitThinking}
 					chatId={chatId}
@@ -1930,6 +1941,9 @@ function DockOverlay({
 	initialQuestionDraft,
 	onSaveQuestionDraft,
 	practice,
+	application,
+	onSubmitApplication,
+	applicationDisabled,
 	compactionRunning,
 	onSubmitThinking,
 	requiresReveal,
@@ -1963,6 +1977,9 @@ function DockOverlay({
 	 *  {toolCallId, input} — dock ownership exactly like a pending
 	 *  question (the composer is replaced); null in teaching sessions. */
 	practice: { toolCallId: string; input: unknown } | null;
+	application: { toolCallId: string; input: unknown } | null;
+	onSubmitApplication: (text: string) => void;
+	applicationDisabled: boolean;
 	/** (commit, text) — the practice dock's two submit lanes. */
 	onSubmitThinking: (text: string) => void;
 	/** Teach-phase pending question: arrives collapsed behind the reveal button (W5). */
@@ -2071,8 +2088,8 @@ function DockOverlay({
 	// Dock ownership (the fold machine, the reserve immunity, the arrival
 	// states): a pending question OR an active practice problem — either
 	// replaces the composer and owns the band.
-	const pendingRef = useRef(!!pending || !!practice);
-	pendingRef.current = !!pending || !!practice;
+	const pendingRef = useRef(!!pending || !!practice || !!application);
+	pendingRef.current = !!pending || !!practice || !!application;
 	const requiresRevealRef = useRef(requiresReveal);
 	requiresRevealRef.current = requiresReveal;
 	const revealedRef = useRef(revealed);
@@ -2087,6 +2104,7 @@ function DockOverlay({
 		? `question:${pending.key}`
 		: practice
 			? `practice:${practice.toolCallId}`
+			: application ? `application:${application.toolCallId}`
 			: "chat";
 
 	// The plan marginalia's flank width (owner, plan-placement round): from
@@ -2421,6 +2439,8 @@ function DockOverlay({
 									onEscape={dictationCancel}
 									compactionRunning={compactionRunning}
 								/>
+							) : application ? (
+								<ApplicationDock key={application.toolCallId} input={application.input as { statement?: unknown }} disabled={applicationDisabled} onSubmit={onSubmitApplication} />
 							) : (
 								composer
 							)}

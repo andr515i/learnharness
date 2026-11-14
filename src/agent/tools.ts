@@ -25,6 +25,7 @@ import { findTool } from "./tools/find.ts";
 import { grepTool } from "./tools/grep.ts";
 import { createShowImageTool } from "./tools/show-image.ts";
 import { healToolRecord } from "./tools/heal.ts";
+import { applicationTools } from "./tools/application.ts";
 import type { GraphStore } from "../core/ports.ts";
 
 export { jobTools };
@@ -442,6 +443,7 @@ export function createTeacherTools(
 	const mechanics = quizMechanics(enabled);
 	// Same widening as the prober's (see above) — the conditional spread of
 	// two differently-typed literals collapses into an unusable union type.
+	const application = applicationTools(ctx);
 	const quizzing: Record<string, AgentTool<any>> =
 		mechanics === "free" ? { explain: teachExplainToolFor(ctx) } : { quiz: teachQuizToolFor(ctx) };
 	// healToolRecord — same standard as the prober's registry (above).
@@ -449,6 +451,7 @@ export function createTeacherTools(
 		filterEnabledTools(
 			{
 			...quizzing,
+			...(enabled?.application === false ? { application_complete: application.application_complete! } : application),
 			ask_user_question: askUserQuestionTool,
 			// The learner-filesystem set is always-on (user-decided 2026-09,
 			// sources v1): the teacher locates and reads learner-referenced

@@ -9,14 +9,12 @@
 <p align="center"><strong>An agent harness for learning.</strong></p>
 
 <p align="center">
-  <a href="https://learnharness.ai">Download</a> ·
   <a href="#how-it-works">How it works</a> ·
   <a href="docs/README.md">Documentation</a> ·
-  <a href="https://github.com/amosblomqvist/learnharness/issues">Issues</a> ·
-  <a href="https://discord.gg/5tCHHQEB2e">Discord</a>
+  <a href="https://github.com/andr515i/learnharness">Repository</a>
 </p>
 
-LearnHarness uses AI agents to plan and teach lessons from your current understanding to your goal. It builds a detailed picture of what you understand and how you reason. That picture is updated as you learn.
+QuanHarness is a personal fork of LearnHarness, originally created by Amos Blomqvist. It uses AI agents to plan and teach lessons from your current understanding to your goal. It builds a detailed picture of what you understand and how you reason. That picture is updated as you learn.
 
 Instead of just giving you an explanation, it uses your answers and thinking to decide what you need next. Teaching builds understanding one reasoning step at a time. Practice makes it usable. A persistent knowledge graph carries it across sessions.
 
@@ -45,11 +43,9 @@ Future teaching sessions can read the graph instead of starting from scratch. Pr
 
 ## Download and get started
 
-**[Download from learnharness.ai](https://learnharness.ai)** · [GitHub Releases](https://github.com/amosblomqvist/learnharness/releases)
+Run QuanHarness from source using the commands below. Packaged releases, if available, are listed on the [fork’s releases page](https://github.com/andr515i/learnharness/releases).
 
-- **macOS (Apple Silicon):** signed and notarized DMG. Drag the app to Applications.
-- **Windows (x64):** run the installer. It is currently unsigned; Windows may show an “unknown publisher” or SmartScreen warning.
-- **Linux (x64):** make the AppImage executable and open it, or install the Debian/Ubuntu `.deb`.
+The desktop build targets macOS (Apple Silicon), Windows (x64), and Linux (x64). Signing and available installers depend on the fork’s release setup; see [desktop builds and releases](docs/desktop-release.md).
 
 Choose your models, then start a session with what you want to understand. You can use provider API keys, supported subscription connections in the desktop app, an installed [Claude Code CLI](docs/claude-code.md), or a [custom OpenAI-compatible endpoint](docs/custom-providers.md), including a local model server. Optional dictation and web search use separate service keys. Web research can use a Tavily, Brave, Exa, Firecrawl, or Ollama key in Settings → Providers → Search. Ollama search uses its hosted service, not a local model server.
 
@@ -74,12 +70,10 @@ npm test           # fixtures and fake providers
 
 See the [documentation index](docs/README.md) for all guides, [development](docs/development.md) for setup and checks, [architecture](docs/architecture.md) for the runtime, [keyboard shortcuts](docs/keyboard.md), and [desktop builds and releases](docs/desktop-release.md).
 
-Questions, bug reports, and feature requests: [GitHub Issues](https://github.com/amosblomqvist/learnharness/issues).
+The fork’s [repository](https://github.com/andr515i/learnharness) contains its current source.
 
 Security vulnerabilities: report privately as described in [SECURITY.md](SECURITY.md), not in public issues.
 
 ## License
 
 [AGPL-3.0](LICENSE)
-
-The app is free and open forever. If we ever charge for anything, it will be for convenience — managed keys, hosting — never for features you can run locally.

@@ -66,7 +66,7 @@ import {
 	type SteerMessage,
 } from "../core/contracts.ts";
 import type { TurnInput } from "../core/input-events.ts";
-import { hasUnresolvedQuestion, endsInDismissal, endsInQuestionRecovery, type LhMessage } from "../core/native-messages.ts";
+import { hasUnresolvedQuestion, endsInDismissal, endsInQuestionRecovery, activeApplicationOf, type LhMessage } from "../core/native-messages.ts";
 import { fireJobAbort, isJobLive } from "../agent/subagents/aborts.ts";
 import { stores, effectiveSettings } from "./stores.ts";
 import { resolveConversationSpec } from "../core/settings-resolution.ts";
@@ -566,7 +566,7 @@ async function pump(chatId: string): Promise<void> {
 			// derived from the tail, so any user message un-holds by construction.
 			// An interrupted question-recovery request also waits for explicit
 			// input; a queued job must not restart its replacement turn.
-			if (endsInDismissal(fresh.messages) || endsInQuestionRecovery(fresh.messages) || !automaticFollowUpAllowed(chatId)) {
+			if (endsInDismissal(fresh.messages) || endsInQuestionRecovery(fresh.messages) || activeApplicationOf(fresh.messages) || !automaticFollowUpAllowed(chatId)) {
 				parked = true;
 				return;
 			}

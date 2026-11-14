@@ -12,11 +12,7 @@ Plugins are the intended home for optional capabilities that do not belong in co
 
 ## Before starting
 
-Check existing issues, PRs, and the [public work board](https://github.com/users/amosblomqvist/projects/2) for related work. **In progress** means someone is already working on the problem; coordinate before starting a parallel implementation. A board item is not, by itself, agreement to implement a proposal.
-
-- [Issues](https://github.com/amosblomqvist/learnharness/issues): concrete bugs and agreed implementation work.
-- [Discussions](https://github.com/amosblomqvist/learnharness/discussions): feature ideas and substantial design proposals. Explain the problem, proposed behavior, and relevant alternatives.
-- [Discord](https://discord.gg/5tCHHQEB2e): quick questions and conversation. Record actionable proposals and decisions on GitHub so others can find the context.
+Check the [fork’s repository](https://github.com/andr515i/learnharness) for related work before starting.
 
 ## Pull requests
 
@@ -50,8 +46,6 @@ Maintainers decide project direction and what is accepted. Review may lead to re
 
 Where suitable, we build on contributors’ implementations and work through revisions with their authors. We may integrate a contribution with finishing changes while preserving authorship and appropriate credit; adopting part of a PR is not acceptance of the whole proposal.
 
-A PR does not guarantee acceptance or inclusion in a particular release. Integration and publication are separate; consult the [work board](https://github.com/users/amosblomqvist/projects/2) and [releases](https://github.com/amosblomqvist/learnharness/releases) for current status.
-
-**Interested in contributing regularly?** If you’d like to help maintain LearnHarness, review and finish fixes, or support other contributors, email me at [contribute@learnharness.ai](mailto:contribute@learnharness.ai). Tell me a little about your interests and how you’d like to help.
+A PR does not guarantee acceptance or inclusion in a particular release. Integration and publication are separate; see the [fork’s releases](https://github.com/andr515i/learnharness/releases) for available builds.
 
 LearnHarness is licensed under [AGPL-3.0](LICENSE).

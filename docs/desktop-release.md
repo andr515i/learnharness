@@ -107,4 +107,4 @@ Packaged apps check at startup and every 24 hours by default, download automatic
 
 Sources: [`electron/main.cjs`](../electron/main.cjs), [`preload.cjs`](../electron/preload.cjs), [`update-settings.tsx`](../components/settings/update-settings.tsx).
 
-After stable publication, [`notify-website.yml`](../.github/workflows/notify-website.yml) dispatches the tag to the website using `WEBSITE_DISPATCH_TOKEN`. Drafts/prereleases do not trigger it. HTTP 204 means the website update was queued, not deployed or publicly verified.
+QuanHarness does not dispatch release notifications to the original project’s website.

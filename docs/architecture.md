@@ -62,7 +62,7 @@ Question drafts survive optimistic unmount in memory. Uncertain submissions reco
 | Agent | Interaction | Other tools |
 | --- | --- | --- |
 | Prober | `probe` or `recall`, `ask_user_question`, `probe_done` | Read-only files, research/PDF dispatch; gated graph readers |
-| Teacher | `quiz` or `explain`, `ask_user_question`, `plan_init` | Read-only files, research/PDF/demo/visual dispatch; `show_image` |
+| Teacher | `quiz` or `explain`, `ask_user_question`, `plan_init`, `application`, `application_complete` | Read-only files, research/PDF/demo/visual dispatch; `show_image` |
 | Practitioner | `problem`, `conclude` | Read-only files, research/PDF dispatch; gated graph readers |
 
 Mechanic choices, settings toggles, and readiness affect availability. Practice side tools are composed separately from teaching toggles. Claude-family agents can receive `send_to_user`. Argument healing precedes semantic validation; invalid calls return errors the model can correct.
@@ -72,6 +72,8 @@ Question tools validate and execute server-side, returning a synthetic terminati
 A matching successful `probe_done` result selects the teacher and queues a fresh-agent handoff. A bare/refused call does not. Planning begins at that seam; displayed teaching begins at the first node-tagged `quiz`/`explain`, not `plan_init`. The plan is a validated Mermaid DAG, replaceable through `plan_init`. Current/visited positions derive from tagged calls, not grades. Waiting for the learner's natural reply to the plan is prompt doctrine, not an acceptance transaction.
 
 Practice uses the same turn/persistence/recovery path, not a separate problem-set service. [`tools/practice.ts`](../src/agent/tools/practice.ts) commits a statement and solution with `problem`; `conclude` records the outcome and reveals that solution. A turn-scoped gate enforces one active problem. The post-conclusion pause is doctrine, not a terminating `conclude` result. Next adds an explicit marker. Practice outcomes are session evidence, not graph mastery; ordinary practice settlement skips extraction.
+
+Application is an optional, default-on teaching tool. A successful `application` call ends the turn and opens a task dock; its state is derived from the persisted transcript across subsequent questions and feedback. The learner can submit a file path and reasoning, request help, or skip. A successful `application_complete` call or the learner's skip closes the task. The teacher reads accessible saved files through the existing read-only tools; it does not run code. Task completion and feedback quality depend on the model's judgment. Background job delivery waits while a task is active.
 
 [Prompt composition](../src/agent/prompts/README.md) and [tool-content display recovery](tool-content-recovery.md) have separate references.
 

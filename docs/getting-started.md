@@ -1,6 +1,6 @@
 # Getting started
 
-Download LearnHarness from [learnharness.ai](https://learnharness.ai) or [GitHub Releases](https://github.com/amosblomqvist/learnharness/releases). For running from source, see [Development](development.md).
+For running QuanHarness from source, see [Development](development.md). Packaged releases, if available, are listed on the [fork’s releases page](https://github.com/andr515i/learnharness/releases).
 
 ## Connect models
 
@@ -20,6 +20,8 @@ Optional web search supports Tavily, Brave, Exa, Firecrawl, and hosted Ollama se
 Choose **Teach** and describe what you want to understand. The agent probes your starting point, presents a plan, and teaches through explanations and checks. Reply naturally to accept or revise the plan.
 
 Use the thinking fields to explain your reasoning, uncertainty, or reaction—not only your selected answer. You can type or dictate. Your confidence is self-reported, not an independent assessment.
+
+During teaching, the agent may offer an Application task. Work in your own tools, save your file, and use the task dock to submit a path and your reasoning, ask a question, request help, or skip. Application is enabled by default and can be turned off in Settings → Agent → Tools. File paths refer to the machine running the server and remain subject to its file-access settings.
 
 Choose **Practice** for problems rather than a lesson. Start from selected graph material or describe material directly. Submit your thinking as you work; the model's committed solution is revealed when the problem concludes. Use **Next problem** when ready to continue.
 
@@ -68,4 +70,4 @@ API-key files sit beside `data`, not inside it. They are plaintext with restrict
 
 Click the context/cost row beneath the composer for Session stats. Dollar figures estimate known API costs; subscription, CLI, and custom-endpoint usage are not treated as free. See [context, caching, and costs](compaction-accounting.md) for the details.
 
-Packaged apps support updates under **Settings → General**. Development builds do not run the updater. Report problems through [GitHub Issues](https://github.com/amosblomqvist/learnharness/issues), with reproduction steps and the app/OS version rather than private learning records or keys.
+Packaged apps support updates under **Settings → General** using the fork’s release feed. Development builds do not run the updater.

@@ -260,6 +260,26 @@ export function newPlanBlockMessage(
  *  vocabulary — the tool-execute layer owns the tools themselves). */
 export const PRACTICE_PROBLEM_TOOL = "problem";
 export const PRACTICE_CONCLUDE_TOOL = "conclude";
+export const APPLICATION_TOOL = "application";
+export const APPLICATION_COMPLETE_TOOL = "application_complete";
+export const APPLICATION_SKIP_TEXT = "I am skipping this application task. Please continue the lesson.";
+
+/** Application state is derived from durable events, never the model context cut. */
+export function activeApplicationOf(messages: readonly LhMessage[]): { toolCallId: string; input: unknown } | null {
+	const clean = cleanToolCallIds(messages);
+	for (let i = messages.length - 1; i >= 0; i--) {
+		const message = messages[i]!;
+		if (message.role === "user" && message.content === APPLICATION_SKIP_TEXT) return null;
+		if (message.role !== "assistant") continue;
+		for (let j = message.content.length - 1; j >= 0; j--) {
+			const block = message.content[j]!;
+			if (block.type !== "toolCall" || !clean.has(block.id)) continue;
+			if (block.name === APPLICATION_COMPLETE_TOOL) return null;
+			if (block.name === APPLICATION_TOOL) return { toolCallId: block.id, input: block.arguments };
+		}
+	}
+	return null;
+}
 
 /** One picked proposition of the graph-context marker (the learner's map
  *  pick — name + statement as the learner SAW them at pick time). */
@@ -926,7 +946,7 @@ export function needsContinuation(messages: readonly LhMessage[]): boolean {
 	// "Problem posed" result later). Without this fold a reload after a
 	// pose would wake a phantom continuation turn.
 	const posedProblem = results.some(
-		(m) => m.toolName === PRACTICE_PROBLEM_TOOL && !m.isError && m.details == null,
+		(m) => (m.toolName === PRACTICE_PROBLEM_TOOL || m.toolName === APPLICATION_TOOL) && !m.isError && m.details == null,
 	);
 	if (posedProblem) return false;
 	const answered = new Set(results.map((m) => m.toolCallId));
